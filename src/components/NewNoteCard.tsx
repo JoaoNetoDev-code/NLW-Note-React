@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog"
 import {X} from "lucide-react"
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import {toast} from "sonner"
 
 interface INewNoteCard {
@@ -29,8 +29,9 @@ const NewNoteCard = ({onNoteCreated}: INewNoteCard) => {
     setIsRecording(true)
     setShouldShowOnboarding(false)
 
-    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
-    let speechRecognition = new SpeechRecognitionAPI()
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    speechRecognition = new SpeechRecognitionAPI();
+
     speechRecognition.lang = 'pt-BR'
     speechRecognition.continuous = true
     speechRecognition.maxAlternatives = 1
@@ -53,14 +54,15 @@ const NewNoteCard = ({onNoteCreated}: INewNoteCard) => {
   }
 
   const handleStopRecording = () => {
-    setIsRecording(false)
-    if (speechRecognition !== null) {
-      speechRecognition.stop()
-    }
-  }
+    setIsRecording(false);
 
-  const handleSaveNote = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    if (speechRecognition !== null) {
+      speechRecognition.stop();
+      speechRecognition = null; 
+  }
+}
+
+  const handleSaveNote = () => {
 
     if (noteContent === '') return toast.error("Você precisa escrever algo antes de salvar sua nota!")
     
